@@ -601,6 +601,7 @@
   .project-meta dt{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-faint); }
   .project-meta dd{ margin:0; font-family:var(--disp); font-weight:700; font-size:clamp(16px, 1.6vw, 20px); color:var(--ink); font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
   .project-meta dd small{ display:block; margin-top:3px; font-family:var(--mono); font-weight:400; font-size:11px; letter-spacing:.04em; color:var(--ink-dim); }
+  .project-meta dd .ver{ font-family:var(--mono); font-weight:500; font-size:.68em; letter-spacing:.06em; color:var(--accent); white-space:nowrap; }
   .project-meta dd.todo{ color:var(--ink-faint); font-weight:500; }
   .hero-logo{
     height:clamp(64px, 8vw, 104px); width:auto;
@@ -619,6 +620,52 @@
     .project-meta div{ padding:12px 0; }
     .project-meta div + div{ padding-left:0; border-left:0; border-top:1px solid var(--panel-line); }
   }
+
+  /* ---------- botão de tema ---------- */
+  .theme-btn{
+    all:unset; box-sizing:border-box; cursor:pointer; pointer-events:auto; width:30px; height:30px; display:grid; place-items:center;
+    border:1px solid var(--panel-line); border-radius:50%; background:var(--panel); backdrop-filter:blur(6px); color:var(--ink-dim);
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .theme-btn:hover{ color:var(--accent); border-color:var(--accent); }
+  .theme-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .theme-btn .ic-moon{ display:none; }
+  :root[data-theme="light"] .theme-btn .ic-sun{ display:none; }
+  :root[data-theme="light"] .theme-btn .ic-moon{ display:block; }
+  @media (max-width: 420px){ .theme-btn{ width:28px; height:28px; } .badge{ display:none; } }
+
+  /* ---------- tema claro ---------- */
+  :root[data-theme="light"]{
+    --bg:#ffffff;
+    --bg-2:#f6f7f9;
+    --panel: rgba(255,255,255,0.82);
+    --panel-line: rgba(10,12,15,0.13);
+    --ink:#0f1216;
+    --ink-dim:#4a525c;
+    --ink-faint:#7c858f;
+    --accent:#e85a1c;
+    --accent-soft: rgba(232,90,28,0.22);
+  }
+  :root[data-theme="light"] .cotas-hero{ --grid-minor: rgba(10,12,15,0.03); --grid-major: rgba(10,12,15,0.06); }
+  :root[data-theme="light"] .posicao{
+    background:
+      linear-gradient(rgba(10,12,15,0.06) 1px, transparent 1px) 0 0 / 120px 120px,
+      linear-gradient(90deg, rgba(10,12,15,0.06) 1px, transparent 1px) 0 0 / 120px 120px,
+      linear-gradient(rgba(10,12,15,0.03) 1px, transparent 1px) 0 0 / 24px 24px,
+      linear-gradient(90deg, rgba(10,12,15,0.03) 1px, transparent 1px) 0 0 / 24px 24px,
+      var(--bg);
+  }
+  :root[data-theme="light"] .cota-view .zoom-hint{ background:rgba(255,255,255,0.92); }
+  :root[data-theme="light"] .hero-logo{ filter:none; }
+  :root[data-theme="light"] .stage-toggle button[aria-pressed="true"]{ background:rgba(10,12,15,0.08); }
+  :root[data-theme="light"] .obs{ background:rgba(232,90,28,0.06); }
+  /* símbolos da legenda: tons claros viram escuros */
+  :root[data-theme="light"] .legend-table .sym [stroke="#c9ced6"],
+  :root[data-theme="light"] .legend-table .sym [stroke="#eceff2"]{ stroke:#3a4048; }
+  :root[data-theme="light"] .legend-table .sym [fill="#c9ced6"]{ fill:#3a4048; }
+  :root[data-theme="light"] .legend-table .sym [fill="#2c3036"]{ fill:#e6e8eb; }
+  :root[data-theme="light"] .legend-table .sym [stroke="#bfe600"]{ stroke:#8aa600; }
+  html, body, .cotas, .cotas-hero, .posicao, .legend-wrap{ transition:background-color .3s ease; }
 
   /* ---------- posição no local ---------- */
   .posicao{
@@ -696,7 +743,7 @@
     background:linear-gradient(90deg, rgba(255,106,43,0.7), rgba(255,106,43,0));
   }
 
-  .cota-foot{
+  .cota-foot{ justify-content:flex-end !important;
     display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap;
     font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; color:var(--ink-dim);
   }
@@ -779,14 +826,14 @@
         <p>Duas opções de estrutura para o DJ, com e sem os Atomic 1000. Escolha a opção e a luz no canto superior; role ou use as setas para ver o modelo em 3D e, no final, a legenda de componentes.</p>
         <button type="button" class="btn-export btn-pdf"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 1.5v7.5M7 9l-3-3M7 9l3-3M2 11.5h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Baixar PDF do projeto</button>
       </div>
-      <img class="hero-logo" src="logo-infratech-original.png" alt="Infratech Producer Event Crew" width="220" height="220">
+      <img class="hero-logo" id="heroLogo" src="logo-infratech-original.png" alt="Infratech Producer Event Crew" width="220" height="220">
     </header>
 
     <!-- Ficha do projeto: preencher com os dados reais de cada projeto -->
     <dl class="project-meta" aria-label="Dados do projeto">
       <div><dt>Local</dt><dd id="metaLocal">Teatro BTG</dd></div>
       <div><dt>Data do evento</dt><dd id="metaEvento">10/11/2026</dd></div>
-      <div><dt>Data do projeto</dt><dd id="metaProjeto">23/10/2026</dd></div>
+      <div><dt>Data do projeto</dt><dd id="metaProjeto">23/10/2026 <span class="ver">· Versão 01</span></dd></div>
       <div><dt>Projeto por</dt><dd id="metaAutor">Guilherme Araujo</dd></div>
     </dl>
 
@@ -801,28 +848,27 @@
         <figcaption class="view-label"><i>02</i> Vista Lateral</figcaption>
       </figure>
       <figure class="sheet cota-view" style="--d:.35s">
-        <button type="button" class="paper" data-title="Vista Topo" aria-label="Aproximar Vista Topo" aria-pressed="false"><span class="zoomwin"><img id="imgTopo" src="cota-op1-topo-escuro.svg" alt="Vista de topo cotada da estrutura" width="908" height="419"><span class="scan" aria-hidden="true"></span></span><span class="zoom-hint" aria-hidden="true">Clique para aproximar</span></button>
+        <button type="button" class="paper" data-title="Vista Topo" aria-label="Aproximar Vista Topo" aria-pressed="false"><span class="zoomwin"><img id="imgTopo" src="cota-op1-topo-escuro.svg" alt="Vista de topo cotada da estrutura" width="907" height="419"><span class="scan" aria-hidden="true"></span></span><span class="zoom-hint" aria-hidden="true">Clique para aproximar</span></button>
         <figcaption class="view-label"><i>03</i> Vista Topo</figcaption>
       </figure>
     </div>
 
     <div class="cota-foot">
-      <div class="scalebar" aria-label="Escala gráfica"><div class="ticks" id="scaleTicks"></div><div class="nums" id="scaleNums"></div></div>
       <span>Medidas em metros · clique em um ponto da vista para aproximar; clique de novo para afastar</span>
     </div>
 
     <aside class="obs" data-opt-only="op2" hidden>
       <p class="obs-k">Observação · Opção 2</p>
-      <p class="obs-t">O pórtico duplo tem só 0,64 m de base para 3,30 m de altura e precisa de <b>contrapeso nos pés</b>: <b>120 kg em cada um dos 4 pés</b>, total de <b>480 kg</b> (mínimo calculado: 457 kg).</p>
+      <p class="obs-t">O pórtico duplo tem só 0,64 m de base para 3,30 m de altura e precisa de <b>contrapeso nos pés</b>: <b>120 kg em cada um dos 4 pés</b>, total de <b>480 kg</b> (mínimo calculado: 388 kg).</p>
       <details>
         <summary>Ver cálculo</summary>
         <ul>
             <li>Estrutura: 20 m de box truss × 10 kg/m = <b>200 kg</b></li>
-            <li>Iluminação: 30 Atomic 1000 × 7,5 kg = <b>225 kg</b> · total <b>425 kg</b></li>
-            <li>Carga horizontal acidental de 10% do peso (42,5 kg) no topo, a 3,30 m: tombamento de <b>140 kg·m</b></li>
-            <li>Com fator de segurança 1,5, a base precisa resistir a <b>210 kg·m</b></li>
+            <li>Iluminação: 24 Atomic 1000 × 7,5 kg = <b>180 kg</b> · total <b>380 kg</b></li>
+            <li>Carga horizontal acidental de 10% do peso (38 kg) no topo, a 3,30 m: tombamento de <b>125 kg·m</b></li>
+            <li>Com fator de segurança 1,5, a base precisa resistir a <b>188 kg·m</b></li>
             <li>A estrutura resiste a 200 kg × 0,32 m = <b>64 kg·m</b>; os Atomic ficam com o centro de gravidade sobre a borda da frente e não ajudam</li>
-            <li>Contrapeso nos pés (braço de 0,32 m): (210 − 64) ÷ 0,32 = <b>457 kg</b>, arredondado para <b>480 kg</b></li>
+            <li>Contrapeso nos pés (braço de 0,32 m): (188 − 64) ÷ 0,32 = <b>388 kg</b>. Mantido em <b>480 kg</b> (120 kg por pé), com folga: fator de segurança final de 1,7</li>
             <li>Não foram contados, a favor da segurança, o peso dos cubos, canos e grepos. Ambiente interno, sem vento.</li>
           </ul>
         <p class="obs-n">Estimativa de projeto. Confirmar com o responsável técnico da montagem.</p>
@@ -844,8 +890,8 @@
       <p>Posição de cada opção sobre o palco do DJ Summit, em vista de topo. A opção selecionada no topo fica em destaque.</p>
     </header>
     <div class="pos-grid">
-      <figure class="pos-fig" data-ref-opt="op1"><img src="ref-op1-escuro.svg" alt="Posição da Opção 1 sobre o palco, vista de topo" width="970" height="527"><figcaption class="view-label"><i>01</i> Opção 1 · Pórtico simples</figcaption></figure>
-      <figure class="pos-fig dim" data-ref-opt="op2"><img src="ref-op2-escuro.svg" alt="Posição da Opção 2 sobre o palco, vista de topo" width="970" height="527"><figcaption class="view-label"><i>02</i> Opção 2 · Pórtico duplo</figcaption></figure>
+      <figure class="pos-fig" data-ref-opt="op1"><img class="theme-img" src="ref-op1-escuro.svg" alt="Posição da Opção 1 sobre o palco, vista de topo" width="970" height="527"><figcaption class="view-label"><i>01</i> Opção 1 · Pórtico simples</figcaption></figure>
+      <figure class="pos-fig dim" data-ref-opt="op2"><img class="theme-img" src="ref-op2-escuro.svg" alt="Posição da Opção 2 sobre o palco, vista de topo" width="970" height="527"><figcaption class="view-label"><i>02</i> Opção 2 · Pórtico duplo</figcaption></figure>
     </div>
   </div>
 </section>
@@ -872,8 +918,8 @@
           <tr><td class="c-sym"><svg class="sym" width="60" height="20" viewBox="0 0 60 20" aria-hidden="true"><rect x="1" y="3.5" width="58" height="13" fill="none" stroke="#9b5cff" stroke-width="1.4"/><polyline points="2,4 9,16 16,4 23,16 30,4 37,16 44,4 51,16 58,4" fill="none" stroke="#9b5cff" stroke-width="1"/></svg></td><td class="c-name">Box Truss Q30<span class="spec-inline">2,00 m</span></td><td class="c-spec">2,00 m</td><td class="c-qty">2</td></tr>
           <tr><td class="c-sym"><svg class="sym" width="82" height="20" viewBox="0 0 82 20" aria-hidden="true"><rect x="1" y="3.5" width="80" height="13" fill="none" stroke="#bfe600" stroke-width="1.4"/><polyline points="2,4 9,16 16,4 23,16 30,4 37,16 44,4 51,16 58,4 65,16 72,4 79,16" fill="none" stroke="#bfe600" stroke-width="1"/></svg></td><td class="c-name">Box Truss Q30<span class="spec-inline">3,00 m</span></td><td class="c-spec">3,00 m</td><td class="c-qty">2</td></tr>
           <tr class="grp"><th colspan="4" scope="rowgroup">Iluminação</th></tr>
-          <tr><td class="c-sym"><svg class="sym" width="18" height="24" viewBox="0 0 18 24" aria-hidden="true"><rect x="2" y="1.5" width="14" height="21" rx="1" fill="rgba(255,106,31,0.15)" stroke="#ff6a1f" stroke-width="1.4"/><rect x="5" y="5" width="8" height="14" fill="none" stroke="#ff6a1f" stroke-width="1"/></svg></td><td class="c-name">Atomic 1000<span class="spec-inline">—</span></td><td class="c-spec">—</td><td class="c-qty">30</td></tr>
-          <tr><td class="c-sym"><svg class="sym" width="126" height="20" viewBox="0 0 126 20" aria-hidden="true"><rect x="1" y="8" width="124" height="4" rx="2" fill="none" stroke="#eceff2" stroke-width="1.2"/></svg></td><td class="c-name">Cano<span class="spec-inline">5,00 m</span></td><td class="c-spec">5,00 m</td><td class="c-qty">5</td></tr>
+          <tr><td class="c-sym"><svg class="sym" width="18" height="24" viewBox="0 0 18 24" aria-hidden="true"><rect x="2" y="1.5" width="14" height="21" rx="1" fill="rgba(255,106,31,0.15)" stroke="#ff6a1f" stroke-width="1.4"/><rect x="5" y="5" width="8" height="14" fill="none" stroke="#ff6a1f" stroke-width="1"/></svg></td><td class="c-name">Atomic 1000<span class="spec-inline">—</span></td><td class="c-spec">—</td><td class="c-qty">24</td></tr>
+          <tr><td class="c-sym"><svg class="sym" width="126" height="20" viewBox="0 0 126 20" aria-hidden="true"><rect x="1" y="8" width="124" height="4" rx="2" fill="none" stroke="#eceff2" stroke-width="1.2"/></svg></td><td class="c-name">Cano<span class="spec-inline">5,00 m</span></td><td class="c-spec">5,00 m</td><td class="c-qty">4</td></tr>
           <tr class="grp"><th colspan="4" scope="rowgroup">Fixações</th></tr>
           <tr><td class="c-sym"><svg class="sym" width="20" height="22" viewBox="0 0 20 22" aria-hidden="true"><line x1="3" y1="3" x2="17" y2="3" stroke="#c9ced6" stroke-width="2"/><line x1="10" y1="3" x2="10" y2="14" stroke="#c9ced6" stroke-width="1.6"/><circle cx="10" cy="17.5" r="3" fill="none" stroke="#c9ced6" stroke-width="1.4"/></svg></td><td class="c-name">Grepo<span class="spec-inline">Q30</span></td><td class="c-spec">Q30</td><td class="c-qty">2</td></tr>
           <tr><td class="c-sym"><svg class="sym" width="28" height="14" viewBox="0 0 28 14" aria-hidden="true"><polygon points="2,7 5,2 10,2 13,7 10,12 5,12" fill="none" stroke="#c9ced6" stroke-width="1.2"/><line x1="13" y1="7" x2="26" y2="7" stroke="#c9ced6" stroke-width="2.4"/></svg></td><td class="c-name">Parafuso sextavado<span class="spec-inline">Ø 5/8</span></td><td class="c-spec">Ø 5/8</td><td class="c-qty">32</td></tr>
@@ -884,8 +930,8 @@
           <tr><td class="c-sym"><svg class="sym" width="60" height="20" viewBox="0 0 60 20" aria-hidden="true"><rect x="1" y="3.5" width="58" height="13" fill="none" stroke="#9b5cff" stroke-width="1.4"/><polyline points="2,4 9,16 16,4 23,16 30,4 37,16 44,4 51,16 58,4" fill="none" stroke="#9b5cff" stroke-width="1"/></svg></td><td class="c-name">Box Truss Q30<span class="spec-inline">2,00 m</span></td><td class="c-spec">2,00 m</td><td class="c-qty">4</td></tr>
           <tr><td class="c-sym"><svg class="sym" width="82" height="20" viewBox="0 0 82 20" aria-hidden="true"><rect x="1" y="3.5" width="80" height="13" fill="none" stroke="#bfe600" stroke-width="1.4"/><polyline points="2,4 9,16 16,4 23,16 30,4 37,16 44,4 51,16 58,4 65,16 72,4 79,16" fill="none" stroke="#bfe600" stroke-width="1"/></svg></td><td class="c-name">Box Truss Q30<span class="spec-inline">3,00 m</span></td><td class="c-spec">3,00 m</td><td class="c-qty">4</td></tr>
           <tr class="grp"><th colspan="4" scope="rowgroup">Iluminação</th></tr>
-          <tr><td class="c-sym"><svg class="sym" width="18" height="24" viewBox="0 0 18 24" aria-hidden="true"><rect x="2" y="1.5" width="14" height="21" rx="1" fill="rgba(255,106,31,0.15)" stroke="#ff6a1f" stroke-width="1.4"/><rect x="5" y="5" width="8" height="14" fill="none" stroke="#ff6a1f" stroke-width="1"/></svg></td><td class="c-name">Atomic 1000<span class="spec-inline">—</span></td><td class="c-spec">—</td><td class="c-qty">30</td></tr>
-          <tr><td class="c-sym"><svg class="sym" width="126" height="20" viewBox="0 0 126 20" aria-hidden="true"><rect x="1" y="8" width="124" height="4" rx="2" fill="none" stroke="#eceff2" stroke-width="1.2"/></svg></td><td class="c-name">Cano<span class="spec-inline">5,00 m</span></td><td class="c-spec">5,00 m</td><td class="c-qty">5</td></tr>
+          <tr><td class="c-sym"><svg class="sym" width="18" height="24" viewBox="0 0 18 24" aria-hidden="true"><rect x="2" y="1.5" width="14" height="21" rx="1" fill="rgba(255,106,31,0.15)" stroke="#ff6a1f" stroke-width="1.4"/><rect x="5" y="5" width="8" height="14" fill="none" stroke="#ff6a1f" stroke-width="1"/></svg></td><td class="c-name">Atomic 1000<span class="spec-inline">—</span></td><td class="c-spec">—</td><td class="c-qty">24</td></tr>
+          <tr><td class="c-sym"><svg class="sym" width="126" height="20" viewBox="0 0 126 20" aria-hidden="true"><rect x="1" y="8" width="124" height="4" rx="2" fill="none" stroke="#eceff2" stroke-width="1.2"/></svg></td><td class="c-name">Cano<span class="spec-inline">5,00 m</span></td><td class="c-spec">5,00 m</td><td class="c-qty">4</td></tr>
           <tr class="grp"><th colspan="4" scope="rowgroup">Fixações</th></tr>
           <tr><td class="c-sym"><svg class="sym" width="20" height="22" viewBox="0 0 20 22" aria-hidden="true"><line x1="3" y1="3" x2="17" y2="3" stroke="#c9ced6" stroke-width="2"/><line x1="10" y1="3" x2="10" y2="14" stroke="#c9ced6" stroke-width="1.6"/><circle cx="10" cy="17.5" r="3" fill="none" stroke="#c9ced6" stroke-width="1.4"/></svg></td><td class="c-name">Grepo<span class="spec-inline">Q30</span></td><td class="c-spec">Q30</td><td class="c-qty">4</td></tr>
           <tr><td class="c-sym"><svg class="sym" width="28" height="14" viewBox="0 0 28 14" aria-hidden="true"><polygon points="2,7 5,2 10,2 13,7 10,12 5,12" fill="none" stroke="#c9ced6" stroke-width="1.2"/><line x1="13" y1="7" x2="26" y2="7" stroke="#c9ced6" stroke-width="2.4"/></svg></td><td class="c-name">Parafuso sextavado<span class="spec-inline">Ø 5/8</span></td><td class="c-spec">Ø 5/8</td><td class="c-qty">40</td></tr>
@@ -919,6 +965,7 @@
         <button type="button" data-luz="0" aria-pressed="true">Sem luz</button>
         <button type="button" data-luz="1" aria-pressed="false">Com luz</button>
       </div>
+      <button type="button" class="theme-btn" id="themeBtn" aria-pressed="false" aria-label="Tema claro" title="Tema claro"><svg class="ic-sun" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3.2" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v1.8M8 13.2V15M1 8h1.8M13.2 8H15M3.05 3.05l1.27 1.27M11.68 11.68l1.27 1.27M3.05 12.95l1.27-1.27M11.68 4.32l1.27-1.27" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><svg class="ic-moon" width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 9.6A5.8 5.8 0 0 1 6.4 2.5a5.8 5.8 0 1 0 7.1 7.1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
       <div class="badge" id="badge">Vistas Cotadas</div>
     </div>
   </div>
@@ -966,6 +1013,16 @@
      da opção escolhida; depois das vistas 3D vem a legenda da opção.
   ----------------------------------------------------------------*/
 
+  /* ---------- tema claro / escuro (preferência guardada só neste navegador) ---------- */
+  var THEME_KEY = 'kwai-awards-2026-tema';
+  var theme = 'dark';
+  try { if (localStorage.getItem(THEME_KEY) === 'light') theme = 'light'; } catch (e) {}
+  document.documentElement.setAttribute('data-theme', theme);
+  function themedSrc(src){
+    // os desenhos claros têm o mesmo nome, sem o sufixo "-escuro"
+    return theme === 'light' ? src.replace('-escuro.svg', '.svg') : src.replace(/(-escuro)?\.svg$/, '-escuro.svg');
+  }
+
   var REDUCED_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Quatro modelos: duas opções de estrutura, cada uma sem e com os Atomic 1000.
@@ -980,9 +1037,9 @@
   var COTAS = {
     op1: {
       frontal:    { src: 'cota-op1-frontal-escuro.svg',     w: 1050, h: 658 },
-      frontalLuz: { src: 'cota-op1-frontal-luz-escuro.svg', w: 835,  h: 561 },
+      frontalLuz: { src: 'cota-op1-frontal-luz-escuro.svg', w: 834,  h: 559 },
       lateral:    { src: 'cota-op1-lateral-escuro.svg',     w: 329,  h: 658 },
-      topo:       { src: 'cota-op1-topo-escuro.svg',        w: 908,  h: 419 }
+      topo:       { src: 'cota-op1-topo-escuro.svg',        w: 907,  h: 419 }
     },
     op2: {
       frontal:    { src: 'cota-op2-frontal-escuro.svg',     w: 1050, h: 658 },
@@ -1088,7 +1145,14 @@
     grid.position.y = 0.0;
     grid.material.transparent = true;
     grid.material.opacity = 0.35;
+    grid.userData.theme = 'dark';
     gridStuff.add(grid);
+    var gridLight = new THREE.GridHelper(40, 40, 0xa9b0b9, 0xc9ced6);
+    gridLight.position.y = 0.0;
+    gridLight.material.transparent = true;
+    gridLight.material.opacity = 0.35;
+    gridLight.userData.theme = 'light';
+    gridStuff.add(gridLight);
 
     function makeLabel(text){
       var c = document.createElement('canvas');
@@ -1284,7 +1348,7 @@
   var imgLateral = document.getElementById('imgLateral');
   var imgTopo = document.getElementById('imgTopo');
 
-  function setImg(im, d){ im.src = d.src; im.width = d.w; im.height = d.h; }
+  function setImg(im, d){ im.src = themedSrc(d.src); im.width = d.w; im.height = d.h; }
 
   function applyStage(){
     var stage = stageKey();
@@ -1345,15 +1409,6 @@
       im.dataset.w = w; im.dataset.h = h;
       setZoom(im, false);
     });
-    // régua com metros reais na mesma escala dos desenhos
-    var pxm = SVG_UNITS_PER_M * k, meters = pxm > 70 ? 3 : 5;
-    var ticks = document.getElementById('scaleTicks'), nums = document.getElementById('scaleNums');
-    ticks.style.width = (meters * pxm) + 'px';
-    ticks.innerHTML = ''; nums.innerHTML = ''; nums.style.width = (meters * pxm) + 'px';
-    for (var m = 0; m <= meters * 2; m++){
-      var t = document.createElement('i'); t.style.left = (m * pxm / 2 - 0.75) + 'px'; ticks.appendChild(t);
-      if (m % 2 === 0){ var n = document.createElement('span'); n.style.left = (m * pxm / 2) + 'px'; n.textContent = (m / 2) + (m === meters * 2 ? ' m' : ''); nums.appendChild(n); }
-    }
   }
   // Clique: aproxima o desenho no ponto clicado, dentro da própria vista. Novo clique: volta ao normal.
   var ZOOM = 2.8;
@@ -1395,6 +1450,37 @@
   optButtons.forEach(function(b){
     b.addEventListener('click', function(){ activeOpt = b.getAttribute('data-opt'); applyStage(); });
   });
+
+  // cores da cena 3D em cada tema (o 3D escuro é o original)
+  var SCENE_THEME = {
+    dark:  { bg: 0x0a0c0f, ground: 0x14171c },
+    light: { bg: 0xffffff, ground: 0xeef0f3 }
+  };
+  var themeBtn = document.getElementById('themeBtn');
+  var heroLogo = document.getElementById('heroLogo');
+  function applyTheme(){
+    document.documentElement.setAttribute('data-theme', theme);
+    var light = theme === 'light';
+    themeBtn.setAttribute('aria-pressed', String(light));
+    themeBtn.setAttribute('aria-label', light ? 'Tema escuro' : 'Tema claro');
+    themeBtn.title = light ? 'Tema escuro' : 'Tema claro';
+    var st = SCENE_THEME[theme];
+    scene.background = new THREE.Color(st.bg);
+    scene.fog = new THREE.Fog(st.bg, 60, 160);
+    matGround.color = new THREE.Color(st.ground);
+    heroLogo.src = light ? 'logo-infratech-claro.png' : 'logo-infratech-original.png';
+    Array.prototype.forEach.call(document.querySelectorAll('img.theme-img'), function(im){ im.src = themedSrc(im.getAttribute('src')); });
+    var c = COTAS[activeOpt];
+    setImg(imgFrontal, activeLuz ? c.frontalLuz : c.frontal);
+    setImg(imgLateral, c.lateral);
+    setImg(imgTopo, c.topo);
+  }
+  themeBtn.addEventListener('click', function(){
+    theme = theme === 'light' ? 'dark' : 'light';
+    try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
+    applyTheme();
+  });
+  applyTheme();
   luzButtons.forEach(function(b){
     b.addEventListener('click', function(){ activeLuz = b.getAttribute('data-luz') === '1'; applyStage(); });
   });
@@ -1410,7 +1496,7 @@
       az: 0, el: 0, fov: 24,
       kicker: '01 / 05 — Vista Frontal',
       title: 'Pórtico do DJ em Box Truss Q30',
-      desc: 'Torres de 3 m sobre cubos Q30 e travessa superior de 2 × 2 m. Cinco canos de 5 m atravessam as torres para receber os 30 Atomic 1000, seis por cano.',
+      desc: 'Torres de 3 m sobre cubos Q30 e travessa superior de 2 × 2 m. Quatro canos de 5 m atravessam as torres para receber os 24 Atomic 1000, seis por cano.',
       specs: {
         op1: ['Largura <b>4,60 m</b>', 'Com canos <b>5,00 m</b>', 'Altura <b>3,30 m</b>'],
         op2: ['Largura <b>4,60 m</b>', 'Com canos <b>5,00 m</b>', 'Altura <b>3,30 m</b>']
@@ -1422,11 +1508,11 @@
       kicker: '02 / 05 — Vista Lateral',
       title: { op1: 'Base em T', op2: 'Pórtico Duplo' },
       desc: {
-        op1: 'Cada torre apoia sobre um cubo Q30 com dois pés de box truss de 0,60 m, um para a frente e outro para trás. Os canos ficam a cada 0,49 m, o primeiro a 0,71 m do piso.',
+        op1: 'Cada torre apoia sobre um cubo Q30 com dois pés de box truss de 0,60 m, um para a frente e outro para trás. Os canos ficam a cada 0,63 m, o primeiro a 0,92 m do piso.',
         op2: 'Dois pórticos iguais, lado a lado, formam uma estrutura com 0,64 m de profundidade. Com a base estreita, os 4 pés recebem contrapeso de 120 kg cada (480 kg no total).'
       },
       specs: {
-        op1: ['Base <b>1,52 m</b>', 'Pés <b>2 × 0,60 m</b>', 'Canos a cada <b>0,49 m</b>'],
+        op1: ['Base <b>1,52 m</b>', 'Pés <b>2 × 0,60 m</b>', 'Canos a cada <b>0,63 m</b>'],
         op2: ['Profundidade <b>0,64 m</b>', '<b>2</b> pórticos', 'Contrapeso <b>4 × 120 kg</b>']
       }
     },
@@ -1435,10 +1521,10 @@
       az: -180, el: 0, fov: 24,
       kicker: '03 / 05 — Vista Posterior',
       title: 'Estrutura por Trás',
-      desc: 'De trás, aparecem as torres, a travessa superior e os cinco canos que recebem os Atomic 1000, com 0,46 m entre os aparelhos.',
+      desc: 'De trás, aparecem as torres, a travessa superior e os quatro canos que recebem os Atomic 1000, com 0,46 m entre os aparelhos.',
       specs: {
-        op1: ['<b>5</b> canos de 5,00 m', '<b>30</b> Atomic 1000', 'Vão <b>0,46 m</b>'],
-        op2: ['<b>5</b> canos de 5,00 m', '<b>30</b> Atomic 1000', 'Vão <b>0,46 m</b>']
+        op1: ['<b>4</b> canos de 5,00 m', '<b>24</b> Atomic 1000', 'Vão <b>0,46 m</b>'],
+        op2: ['<b>4</b> canos de 5,00 m', '<b>24</b> Atomic 1000', 'Vão <b>0,46 m</b>']
       }
     },
     {
@@ -1462,12 +1548,12 @@
       kicker: '05 / 05 — Vista Isométrica',
       title: 'Visão de Conjunto',
       desc: {
-        op1: 'Conjunto com 8 segmentos de box truss Q30, 2 cubos, 5 canos de 5 m e 30 Atomic 1000.',
-        op2: 'Conjunto com 8 segmentos de box truss Q30, 4 cubos, 5 canos de 5 m e 30 Atomic 1000.'
+        op1: 'Conjunto com 8 segmentos de box truss Q30, 2 cubos, 4 canos de 5 m e 24 Atomic 1000.',
+        op2: 'Conjunto com 8 segmentos de box truss Q30, 4 cubos, 4 canos de 5 m e 24 Atomic 1000.'
       },
       specs: {
-        op1: ['<b>8</b> segmentos Q30', '<b>30</b> Atomic 1000', '<b>32</b> parafusos'],
-        op2: ['<b>8</b> segmentos Q30', '<b>30</b> Atomic 1000', '<b>40</b> parafusos']
+        op1: ['<b>8</b> segmentos Q30', '<b>24</b> Atomic 1000', '<b>32</b> parafusos'],
+        op2: ['<b>8</b> segmentos Q30', '<b>24</b> Atomic 1000', '<b>40</b> parafusos']
       }
     }
   ];
@@ -1679,7 +1765,7 @@
     gridStuff.visible = distFromTop < 1.6;
     gridStuff.children.forEach(function(child){
       if (child.material) child.material.opacity = Math.max(0, 1 - distFromTop/1.4) * (child.type === 'GridHelper' ? 0.35 : 1);
-      child.visible = !child.userData.hide;
+      child.visible = !child.userData.hide && (!child.userData.theme || child.userData.theme === theme);
     });
 
     // painéis: crossfade
@@ -2001,8 +2087,9 @@
   }
 
   (function setupPdf(){
-    var PDF_URL = 'projeto.pdf';
-    var PDF_NAME = 'Kwai Awards 2026 - Estrutura DJ.pdf';
+    // o botão sempre baixa a versão clara (fundo branco), nos dois temas
+    function pdfUrl(){ return 'projeto-impressao.pdf'; }
+    function pdfName(){ return 'Kwai Awards 2026 - Estrutura DJ v01.pdf'; }
     var status = document.getElementById('exportStatus');
     var capPromise = (window.claude && typeof window.claude.use === 'function')
       ? window.claude.use('downloads').catch(function(){ return null; })
@@ -2010,7 +2097,7 @@
     function directDownload(blob){
       var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
-      a.href = url; a.download = PDF_NAME; a.rel = 'noopener'; a.style.display = 'none';
+      a.href = url; a.download = pdfName(); a.rel = 'noopener'; a.style.display = 'none';
       document.body.appendChild(a); a.click();
       setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 1500);
     }
@@ -2019,14 +2106,14 @@
         if (btn.getAttribute('aria-busy') === 'true') return;
         btn.setAttribute('aria-busy', 'true');
         // sempre a versão mais nova do PDF (sem reaproveitar o cache do navegador)
-        fetch(PDF_URL + '?v=' + Date.now(), { cache: 'no-store' }).then(function(res){
+        fetch(pdfUrl() + '?v=' + Date.now(), { cache: 'no-store' }).then(function(res){
           if (!res.ok) throw new Error('HTTP ' + res.status);
           return res.blob();
         }).then(function(b){
           var blob = new Blob([b], { type: 'application/pdf' });
           return capPromise.then(function(downloads){
             if (!downloads){ directDownload(blob); return; }
-            return downloads.save({ filename: PDF_NAME, data: blob }).catch(function(err){
+            return downloads.save({ filename: pdfName(), data: blob }).catch(function(err){
               var code = err && err.code;
               if (code === 'declined' || code === 'rate_limited') return;
               directDownload(blob);
