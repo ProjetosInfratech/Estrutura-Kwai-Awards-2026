@@ -2018,7 +2018,8 @@
       btn.addEventListener('click', function(){
         if (btn.getAttribute('aria-busy') === 'true') return;
         btn.setAttribute('aria-busy', 'true');
-        fetch(PDF_URL).then(function(res){
+        // sempre a versão mais nova do PDF (sem reaproveitar o cache do navegador)
+        fetch(PDF_URL + '?v=' + Date.now(), { cache: 'no-store' }).then(function(res){
           if (!res.ok) throw new Error('HTTP ' + res.status);
           return res.blob();
         }).then(function(b){
